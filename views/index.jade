@@ -1,23 +1,3 @@
 extends layout
 
 block content
-	h1(data-bind='text: milestone().name')
-
-	div(id='tickets', class='status-column', data-bind="template: { name: 'status-column-template', foreach: statuses}" )
-
-
-	script(src='/javascripts/cardWallModel.js')
-	
-	script(id='status-column-template', type='text/html')
-		<span data-bind="text: label, attribute: { id: name }" />
-
-	script(type='text/javascript')		
-		$(function(){ 
-			
-			login();
-
-			var model = new CardWallModel();
-			ko.applyBindings(model);
-
-			model.loadTickets(12314);
-		});

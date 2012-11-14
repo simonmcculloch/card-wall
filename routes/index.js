@@ -30,7 +30,9 @@ exports.index = function(req, res){
 			success: function(data) { 
 						accessToken = data.access_token;
 						console.log('Success! Token received: ' + accessToken);
-						}
+
+						res.redirect("/wall?access_token=" + accessToken);
+					}
 		 });
 				
 	}
