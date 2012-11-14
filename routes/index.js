@@ -24,17 +24,12 @@ exports.index = function(req, res){
 		console.log('Have code: ' + code);
 		console.log('Requesting access token...');
 		
-		$.ajax({
-			url: 'https://b3VUgQlF4r4RMWacwqjQYw:cb605bfefe255bc3b3b9c64d3aeb6567@api.assembla.com/token?grant_type=authorization_code&code=' + code, 
-			type: 'post',
-			success: function(data) { 
+		$.post('https://b3VUgQlF4r4RMWacwqjQYw:cb605bfefe255bc3b3b9c64d3aeb6567@api.assembla.com/token?grant_type=authorization_code&code=' + code, function(data) { 
 						accessToken = data.access_token;
 						console.log('Success! Token received: ' + accessToken);
 
 						res.redirect("/wall?access_token=" + accessToken);
-					}
-		 });
-				
+					});
 	}
 
 	res.render('index', { token: accessToken });
