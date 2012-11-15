@@ -3,9 +3,10 @@ function login() {
 	console.log('Logging in...');
 };
 
-function CardWallModel() {
+function CardWallModel(token) {
 	var me = this;
 
+	me.accessToken = token;
 	me.milestone = ko.observable();
 	me.statuses = ko.observableArray([
 			{name: 'New', label : 'New'},
@@ -20,11 +21,23 @@ function CardWallModel() {
 			{name: 'Readyforacceptance', label : 'Acceptance'},
 			{name: 'Done', label : 'Done'}
 		]);
+	me.tickets = ko.observableArray([]);
+
 
 	me.loadTickets = function(milestoneId){
 		console.log('Loading tickets for Milestone: ' + milestoneId);
+
+		$.ajax({
+			url: 'https://www.assembla.com/v1/spaces/brightpt/tickets/milestone/' + milestoneId + '.json', 
+			type: 'GET',
+			dataType: 'json',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader('authorization', 'Bearer ' + me.accessToken); 
+			},
+			success: function(data) {
+				me.tickets(data);
+			}
+		});
 	}; 
 
-	// test data
-	me.milestone({ id : 12312312312, name : 'Release 150' });
 };
