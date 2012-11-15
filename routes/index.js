@@ -39,7 +39,7 @@ exports.index = function(req, res){
 						},
 			error: function() {
 					console.log('Access Token request failed.');
-					}
+					},
 			success: function(data) { 
 						accessToken = data.access_token;
 						console.log('Success! Token received: ' + accessToken);
