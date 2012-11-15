@@ -32,6 +32,11 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/wall', routes.wall);
 
+routes.index.post = function(req, res) {
+  if(req.session.access_token)
+    res.redirect('/wall?access_token=' + req.session.access_token);
+};
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
