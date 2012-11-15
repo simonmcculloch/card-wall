@@ -35,8 +35,12 @@ app.get('/', routes.index);
 app.get('/wall', routes.wall);
 
 routes.index.post = function(req, res) {
-  if(req.session.access_token)
+  console.log('index.post: checking for token...')
+  if(req.session.access_token) {    
+    delete req.session.access_token;
+    console.log('found. redirecting...');
     res.redirect('/wall?access_token=' + req.session.access_token);
+  }
 };
 
 http.createServer(app).listen(app.get('port'), function(){
