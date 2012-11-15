@@ -29,26 +29,17 @@ function CardWallModel(token) {
 		me.milestone({ id : milestoneId, name : milestoneId });
 
 	$.ajax({
-			url: '/wall/tickets?milestone_id=' + milestoneId + '&access_token=' + me.accessToken, 
+			url: '/tickets?milestone_id=' + milestoneId + '&access_token=' + me.accessToken, 
 			type: 'GET',
 			dataType: 'json',
 			success: function(data) {
 				me.tickets(data);
+
+				var div = $("#temp");
+				$.each(data, function(i, t) { div.append($("<span/>").text(t.summary)); });
 			}
 		});
-/*
-		$.ajax({
-			url: 'https://www.assembla.com/v1/spaces/brightpt/tickets/milestone/' + milestoneId + '.json', 
-			type: 'GET',
-			dataType: 'json',
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader('authorization', 'Bearer ' + me.accessToken); 
-			},
-			success: function(data) {
-				me.tickets(data);
-			}
-		});
-*/
+
 	}; 
 
 };

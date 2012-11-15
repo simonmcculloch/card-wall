@@ -9,7 +9,8 @@ var express = require('express')
   , path = require('path')
   , home = require('./routes/home')
   , login = require('./routes/login')
-  , wall = require('./routes/wall');
+  , wall = require('./routes/wall')
+  , tickets = require('./routes/tickets');
 
 
 var app = express();
@@ -46,7 +47,7 @@ authenticate = function(req, res) {
 app.get('/', home.index);
 app.get('/login', login.index);
 app.get('/wall', wall.index);
-app.get('/wall/tickets', wall.tickets);
+app.get('/tickets', tickets.index);
 
 
 
