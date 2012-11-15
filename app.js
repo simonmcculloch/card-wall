@@ -3,12 +3,14 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
+var express = require('express')  
   , http = require('http')
   , url = require('url')
   , path = require('path')
-  , $ = require('jquery');
+  , home = require('./routes/home')
+  , login = require('./routes/login')
+  , wall = require('./routes/wall');
+
 
 var app = express();
 
@@ -31,17 +33,24 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
-app.get('/wall', routes.wall);
+authenticate = function(req, res) {
+  console.log('Authenticating...');
+  if(!req.session.access_token){
+      res.redirect('/login');
+    }
+    else
+      console.log('Authenticated.');
+}
 
-routes.index.post = function(req, res) {
-  console.log('index.post: checking for token...')
-  if(req.session.access_token) {    
-    delete req.session.access_token;
-    console.log('found. redirecting...');
-    res.redirect('/wall?access_token=' + req.session.access_token);
-  }
-};
+
+app.get('/', home.index);
+app.get('/login', login.index);
+app.get('/wall', wall.index);
+
+
+
+
+app.get('/wall', function(req, res) { res.send('wall', 200) });
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

@@ -4,6 +4,7 @@
  */
 
 exports.index = function(req, res){
+
 	var url = require('url')
 	, http = require('http')
   	, path = require('path')
@@ -45,8 +46,7 @@ exports.index = function(req, res){
 						console.log('Success! Token received: ' + accessToken);
 
 						req.session.access_token = accessToken;
-						//res.redirect('wall?access_token='+accessToken);
-						//res.render('wall', { token: accessToken });
+						res.redirect('/wall?access_token='+accessToken);
 					}
 			});
 	}

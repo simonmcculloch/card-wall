@@ -1,7 +1,8 @@
 
-exports.wall = function(req, res){
+exports.index = function(req, res){
 
-	var url = require('url')
+	res.send('wall', 200);
+/*	var url = require('url')
 		, http = require('http')
 	  	, path = require('path')
 	  	, $ = require('jquery');
@@ -11,5 +12,5 @@ exports.wall = function(req, res){
 	var accessToken = query["access_token"];
 
 	res.render('wall', { token: accessToken });
-
+*/
 };
