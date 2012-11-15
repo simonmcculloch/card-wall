@@ -3,6 +3,7 @@ extends layout
 block content
 	h1(data-bind='text: milestone().name')
 
+	p=token
 	div(id='tickets', class='status-column', data-bind="template: { name: 'status-column-template', foreach: statuses}" )
 
 
