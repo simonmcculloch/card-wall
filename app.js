@@ -10,6 +10,7 @@ var express = require('express')
   , path = require('path')
   , $ = require('jquery');
 
+var store  = new express.session.MemoryStore;
 var app = express();
 
 app.configure(function(){
@@ -19,6 +20,7 @@ app.configure(function(){
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
+  app.use(express.session({ secret: 'secret', store: store }))
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(require('less-middleware')({ src: __dirname + '/public' }));
