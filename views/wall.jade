@@ -15,7 +15,7 @@ block content
 	script(type='text/javascript')		
 		$(function(){ 
 
-			var model = new CardWallModel(=token);
+			var model = new CardWallModel('#{token}');
 			ko.applyBindings(model);
 
 			model.loadTickets(2137233);

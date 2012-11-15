@@ -7,7 +7,7 @@ function CardWallModel(token) {
 	var me = this;
 
 	me.accessToken = token;
-	me.milestone = ko.observable();
+	me.milestone = ko.observable({ id: '', name : ''});
 	me.statuses = ko.observableArray([
 			{name: 'New', label : 'New'},
 			{name: 'Blocked', label : 'Blocked'},
@@ -26,7 +26,17 @@ function CardWallModel(token) {
 
 	me.loadTickets = function(milestoneId){
 		console.log('Loading tickets for Milestone: ' + milestoneId);
+		me.milestone({ id : milestoneId, name : milestoneId });
 
+	$.ajax({
+			url: '/wall/tickets?milestone_id=' + milestoneId + '&access_token=' + me.accessToken, 
+			type: 'GET',
+			dataType: 'json',
+			success: function(data) {
+				me.tickets(data);
+			}
+		});
+/*
 		$.ajax({
 			url: 'https://www.assembla.com/v1/spaces/brightpt/tickets/milestone/' + milestoneId + '.json', 
 			type: 'GET',
@@ -38,6 +48,7 @@ function CardWallModel(token) {
 				me.tickets(data);
 			}
 		});
+*/
 	}; 
 
 };

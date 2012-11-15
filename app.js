@@ -46,6 +46,7 @@ authenticate = function(req, res) {
 app.get('/', home.index);
 app.get('/login', login.index);
 app.get('/wall', wall.index);
+app.get('/wall/tickets', wall.tickets);
 
 
 
