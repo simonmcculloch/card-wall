@@ -13,7 +13,6 @@ exports.index = function(req, res){
 	var urlParts = url.parse(req.url, true);
 	var query = urlParts.query;
 	var code = query["code"];
-	var accessToken = query["access_token"];
 
 	var appId = 'b3VUgQlF4r4RMWacwqjQYw';
 	var appSecret = 'cb605bfefe255bc3b3b9c64d3aeb6567';
