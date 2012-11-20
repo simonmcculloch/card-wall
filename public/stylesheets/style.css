@@ -4,3 +4,48 @@ body {
 a {
   color: #00B7FF;
 }
+h1 {
+  font-size: 1.4em;
+  width: 100%;
+  border-bottom: solid 1px silver;
+  color: darkgrey;
+}
+.container {
+  height: auto !important;
+  /* ie6 ignores !important, so this will be overridden below */
+
+  min-height: 100%;
+  /* ie6 ignores min-height completely */
+
+  height: 100%;
+}
+.status-column {
+  float: left;
+  width: 9%;
+  text-align: center;
+  border-right: solid 1px silver;
+}
+.status-column > span {
+  width: 100%;
+  font-weight: bold;
+}
+.ticket {
+  margin: 10px;
+  padding: 2px;
+  border: solid 1px silver;
+  font-size: 0.8em;
+  overflow: hidden;
+  -webkit-box-shadow: 4px 4px 5px #888;
+}
+.Bug {
+  background-color: pink;
+}
+.Tech {
+  background-color: lightBlue;
+}
+.Story {
+  background-color: white;
+}
+.Quote {
+  background-color: lemonchiffon;
+}

@@ -8,20 +8,21 @@ function CardWallModel(token) {
 
 	me.accessToken = token;
 	me.milestone = ko.observable({ id: '', title : ''});
-	me.statuses = ko.observableArray([
-			{name: 'New', label : 'New'},
-			{name: 'Blocked', label : 'Blocked'},
-			{name: 'Readyforanalysis', label : 'Ready'},
-			{name: 'InAnalysis', label : 'In'},
-			{name: 'Readyfordev', label : 'Ready'},
-			{name: 'InDev', label : 'In'},
-			{name: 'Readyfortestingrelease', label : 'Ready'},
-			{name: 'Readyfortest', label : 'Ready'},
-			{name: 'InTest', label : 'In'},
-			{name: 'Readyforacceptance', label : 'Acceptance'},
-			{name: 'Done', label : 'Done'}
-		]);
-	me.tickets = ko.observableArray([]);
+	me.columns = ko.observableArray();
+
+	me.states = [
+			{name: 'New', tickets: [] , label : 'New'},
+			{name: 'Blocked', tickets: [] , label : 'Blocked'},
+			{name: 'Ready for analysis', tickets: [] , label : 'Analysis Ready'},
+			{name: 'In Analysis', tickets: [] , label : 'In Analysis'},
+			{name: 'Ready for dev', tickets: [] , label : 'Ready for Dev'},
+			{name: 'In Dev', tickets: [] , label : 'In Dev'},
+			{name: 'Ready for testing release', tickets: [] , label : 'Ready for Test Release'},
+			{name: 'Ready for test', tickets: [] , label : 'Ready for Test'},
+			{name: 'In Test', tickets: [] , label : 'In Test'},
+			{name: 'Ready for acceptance', tickets: [] , label : 'Acceptance'},
+			{name: 'Done', tickets: [] , label : 'Done'}
+		];
 
 	me.loadTickets = function() {
 		console.log('Loading tickets for Milestone: ' + me.milestone().id);
@@ -30,11 +31,18 @@ function CardWallModel(token) {
 				url: '/tickets/milestone/' + me.milestone().id + '?access_token=' + me.accessToken, 
 				type: 'GET',
 				dataType: 'json',
-				success: function(data) {
-					me.tickets(data);
+				success: function(data) {					
 
-					var div = $("#temp");
-					$.each(data, function(i, t) { div.append($("<span/>").text(t.summary)); });
+					$.each(data, function(i, ticket) { 
+
+						var status = _.find(me.states, function(status) { return status.name == ticket.status; });
+
+						if(status)
+							status.tickets.push(ticket);
+
+					});
+
+					me.columns(me.states);
 				}
 			});
 	}; 
@@ -53,6 +61,5 @@ function CardWallModel(token) {
 				}
 			});
 	}; 
-	
 
 };
