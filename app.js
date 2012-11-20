@@ -7,10 +7,12 @@ var express = require('express')
   , http = require('http')
   , url = require('url')
   , path = require('path')
+  , token = require('./token')
   , home = require('./routes/home')
   , login = require('./routes/login')
   , wall = require('./routes/wall')
-  , tickets = require('./routes/tickets');
+  , tickets = require('./routes/tickets')
+  , milestones = require('./routes/milestones');
 
 
 var app = express();
@@ -47,12 +49,8 @@ authenticate = function(req, res) {
 app.get('/', home.index);
 app.get('/login', login.index);
 app.get('/wall', wall.index);
-app.get('/tickets', tickets.index);
-
-
-
-
-app.get('/wall', function(req, res) { res.send('wall', 200) });
+app.get('/tickets/milestone/:milestoneId', token.parse, tickets.index);
+app.get('/milestones/:id', token.parse, milestones.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

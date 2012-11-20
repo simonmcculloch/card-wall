@@ -1,9 +1,8 @@
 extends layout
 
 block content
-	h1(data-bind='text: milestone().name')
+	h1(data-bind='text: milestone().title')
 
-	p=token
 	div(class='status-column', data-bind="template: { name: 'status-column-template', foreach: statuses}" )
 
 	div(id='temp')
@@ -20,5 +19,6 @@ block content
 			var model = new CardWallModel('#{token}');
 			ko.applyBindings(model);
 
-			model.loadTickets(2137233);
+			model.loadMilestone(2137233)	
+			
 		});
