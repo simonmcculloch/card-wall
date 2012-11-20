@@ -7,7 +7,7 @@ exports.index = function(req, res) {
 	
 	console.log('Requesting Milestone ' + milestoneId);	
 	
-	assembla.get(req, res, 'milestones/' + milestoneId + '.json', req.params.accessToken);
+	assembla.get(req, res, 'milestones/' + milestoneId + '.json');
 
 
 }

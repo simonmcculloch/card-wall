@@ -7,6 +7,6 @@ exports.index = function(req, res) {
 
 	console.log('Requesting tickets for Milestone ' + milestoneId);
 	
-	assembla.get(req, res, 'tickets/milestone/' + milestoneId + '.json', req.params.accessToken);
+	assembla.get(req, res, 'tickets/milestone/' + milestoneId + '.json');
 
 };

@@ -1,8 +1,9 @@
 
-exports.get = function(req, res, resource, accessToken) {
+exports.get = function(req, res, resource) {
 
 	var $ = require('jquery');
 	var url = 'https://api.assembla.com/v1/spaces/brightpt/' + resource;
+	var accessToken = req.params.accessToken;
 
 	console.log('Url is: ' + url);
 
