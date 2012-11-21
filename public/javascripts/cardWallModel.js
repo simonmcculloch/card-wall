@@ -3,7 +3,8 @@ function CardWallModel(token) {
 	var me = this;
 
 	me.accessToken = token;
-	me.milestone = ko.observable({ id: '', title : ''});
+	me.milestones = ko.observableArray();
+	me.milestone = ko.observable({ id: 0, title: ''});
 	me.columns = ko.observableArray();
 	me.users = ko.observableArray();
 
@@ -49,9 +50,14 @@ function CardWallModel(token) {
 			});
 	}; 		
 
+	me.clearTickets = function() {
+		$.each(me.states, function(i, state) { state.tickets = []; });
+		me.columns(null);
+	};
+
 	me.loadTickets = function() {
 		console.log('Loading tickets for Milestone: ' + me.milestone().id);
-
+				
 		$.ajax({
 				url: '/tickets/milestone/' + me.milestone().id + '?access_token=' + me.accessToken, 
 				type: 'GET',
@@ -64,7 +70,6 @@ function CardWallModel(token) {
 
 						if(status)
 							status.tickets.push(ticket);
-
 					});
 
 					me.columns(me.states);
@@ -79,17 +84,17 @@ function CardWallModel(token) {
 			});
 	}; 
 
-	me.loadMilestone = function(milestoneId) {
-		console.log('Loading Milestone: ' + milestoneId);
+	me.loadMilestones = function() {
+		console.log('Loading Milestones');
 
 		$.ajax({
-				url: '/milestones/' + milestoneId + '?access_token=' + me.accessToken, 
+				url: '/milestones?access_token=' + me.accessToken, 
 				type: 'GET',
 				dataType: 'json',
 				success: function(data) {
-					me.milestone({ id: data.id, title : data.title });
+					me.milestones(data);
 
-					me.loadTickets();
+					
 				},
 				error: function(xhr) { 
 					if(xhr.status == "401") {
@@ -101,8 +106,18 @@ function CardWallModel(token) {
 			});
 	};
 
+	me.selectMilestone = function(id) {
+		console.log('Milestone ' + id + ' selected.');
+
+		var milestone = _.find(me.milestones(), function(milestone) { return milestone.id == id; });
+
+		me.milestone(milestone);		
+		me.clearTickets();
+		me.loadTickets();
+	};
+
 	me.refresh = function() { 
-		me.loadMilestone(me.milestone().id);
+		//me.tickets(me.milestone().id);
 	} ;
 
 };

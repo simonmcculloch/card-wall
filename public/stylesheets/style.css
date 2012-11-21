@@ -1,9 +1,6 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-a {
-  color: #00B7FF;
-}
 h1 {
   font-size: 1.4em;
   width: 100%;
@@ -19,6 +16,21 @@ h1 {
 
   height: 100%;
 }
+#milestone-banner {
+  background: darkgrey;
+  width: 100%;
+  margin-bottom: 10px;
+}
+#milestone-banner a {
+  float: left;
+  margin-right: 10px;
+  padding: 10px;
+  cursor: pointer;
+  color: white;
+}
+#milestone-banner .selected {
+  color: yellow;
+}
 .status-column {
   float: left;
   width: 9%;
@@ -27,7 +39,7 @@ h1 {
 }
 .status-column > span {
   width: 100%;
-  font-weight: bold;
+  font-size: 1.0em;
 }
 .ticket {
   margin: 10px;
@@ -36,6 +48,9 @@ h1 {
   font-size: 0.8em;
   overflow: hidden;
   -webkit-box-shadow: 4px 4px 5px #888;
+}
+.ticket a {
+  font-size: 1.1em;
 }
 .user-label {
   background-color: white;

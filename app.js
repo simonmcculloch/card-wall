@@ -51,7 +51,7 @@ app.get('/', home.index);
 app.get('/login', login.index);
 app.get('/wall', wall.index);
 app.get('/tickets/milestone/:milestoneId', token.parse, tickets.index);
-app.get('/milestones/:id', token.parse, milestones.index);
+app.get('/milestones', token.parse, milestones.index);
 app.get('/users', token.parse, users.index);
 
 http.createServer(app).listen(app.get('port'), function(){

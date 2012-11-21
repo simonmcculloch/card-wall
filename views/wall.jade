@@ -1,10 +1,14 @@
 extends layout
 
 block content
-	h1(data-bind='text: milestone().title')
+	div(id="milestone-banner", data-bind="template: { name: 'milestone-template', foreach: milestones }")
+		div(style="float:none;clear:both;")
 
 	div(id="container")
 		div(data-bind="template: { name: 'status-column-template', foreach: columns }" )
+
+	script(id='milestone-template', type='text/html')
+		<a data-bind="text: title, click: function() { $root.selectMilestone(id) }, attr: { class: 'milestone-link ' + (($root.milestone().id == id) ? 'selected' : '') } " />
 
 	script(id='status-column-template', type='text/html')
 		<div class='status-column'>
@@ -28,8 +32,7 @@ block content
 			ko.applyBindings(model);
 
 			model.loadUsers();
-			model.loadMilestone(2137233);
-			
+			model.loadMilestones();
 
 			setTimeout(function() { model.refresh(); }  , 30000);
 		});
