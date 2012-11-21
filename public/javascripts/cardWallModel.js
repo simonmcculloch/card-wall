@@ -1,14 +1,11 @@
 
-function login() {
-	console.log('Logging in...');
-};
-
 function CardWallModel(token) {
 	var me = this;
 
 	me.accessToken = token;
 	me.milestone = ko.observable({ id: '', title : ''});
 	me.columns = ko.observableArray();
+	me.users = ko.observableArray();
 
 	me.states = [
 			{name: 'New', tickets: [] , label : 'New'},
@@ -23,6 +20,34 @@ function CardWallModel(token) {
 			{name: 'Ready for acceptance', tickets: [] , label : 'Acceptance'},
 			{name: 'Done', tickets: [] , label : 'Done'}
 		];
+
+	me.findUser = function(id) {
+		var user = _.find(me.users(), function(user) { return user.id == id; });
+
+		if(!user)
+			return { name : "Unassigned" };
+
+		return user;
+	};
+
+	me.loadUsers = function() {
+		console.log('Loading Users');
+
+		$.ajax({
+				url: '/users?access_token=' + me.accessToken, 
+				type: 'GET',
+				dataType: 'json',
+				success: function(data) {					
+					me.users(data);
+				},
+				error: function(xhr) { 
+					if(xhr.status == "401") {
+						console.log('Ticket has expired');
+						window.location = '/login';
+					}
+				} 
+			});
+	}; 		
 
 	me.loadTickets = function() {
 		console.log('Loading tickets for Milestone: ' + me.milestone().id);
@@ -43,7 +68,14 @@ function CardWallModel(token) {
 					});
 
 					me.columns(me.states);
-				}
+				},
+				error: function(xhr) { 
+					if(xhr.status == "401") {
+						console.log('Ticket has expired');
+						window.location = '/login';
+					}
+				} 
+
 			});
 	}; 
 
@@ -58,8 +90,19 @@ function CardWallModel(token) {
 					me.milestone({ id: data.id, title : data.title });
 
 					me.loadTickets();
-				}
+				},
+				error: function(xhr) { 
+					if(xhr.status == "401") {
+						console.log('Ticket has expired');
+						window.location = '/login';
+					}
+				} 
+
 			});
-	}; 
+	};
+
+	me.refresh = function() { 
+		me.loadMilestone(me.milestone().id);
+	} ;
 
 };

@@ -12,7 +12,8 @@ var express = require('express')
   , login = require('./routes/login')
   , wall = require('./routes/wall')
   , tickets = require('./routes/tickets')
-  , milestones = require('./routes/milestones');
+  , milestones = require('./routes/milestones')
+  , users = require('./routes/users');
 
 
 var app = express();
@@ -51,6 +52,7 @@ app.get('/login', login.index);
 app.get('/wall', wall.index);
 app.get('/tickets/milestone/:milestoneId', token.parse, tickets.index);
 app.get('/milestones/:id', token.parse, milestones.index);
+app.get('/users', token.parse, users.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
