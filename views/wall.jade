@@ -18,8 +18,9 @@ block content
 
 	script(id='ticket-template', type='text/html')
 		<div class='ticket' data-bind="attr : { class : 'ticket ' + custom_fields['Type'] }">
-		<a data-bind="text: '#' + number, attr : { href: 'https://www.assembla.com/spaces/brightpt/tickets/' + number + '#/activity/ticket' }" />
-		<span data-bind="text: summary" />
+		<span class='ticket-link'><a data-bind="text: '#' + number, attr : { href: 'https://www.assembla.com/spaces/brightpt/tickets/' + number + '#/activity/ticket' }" /></span>
+		<span class='ticket-estimate' data-bind="text: estimate, attr: { title : 'Estimate' }" />
+		<div data-bind="text: summary" />
 		<div class="user-label" data-bind="text: $root.findUser(assigned_to_id).name" />
 		<div class="user-label" data-bind="text: $root.findUser(custom_fields['Offsider']).name" />
 		</div>
