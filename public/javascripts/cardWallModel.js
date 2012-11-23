@@ -13,10 +13,10 @@ function CardWallModel(token) {
 			{name: 'Blocked', tickets: [] , label : 'Blocked', points : 0},
 			{name: 'Ready for analysis', tickets: [] , label : 'Analysis Ready', points : 0},
 			{name: 'In Analysis', tickets: [] , label : 'In Analysis', points : 0},
-			{name: 'Ready for dev', tickets: [] , label : 'Ready for Dev', points : 0},
+			{name: 'Ready for dev', tickets: [] , label : ' Dev Ready', points : 0},
 			{name: 'In Dev', tickets: [] , label : 'In Dev', points : 0},
-			{name: 'Ready for testing release', tickets: [] , label : 'Ready for Test Release', points : 0},
-			{name: 'Ready for test', tickets: [] , label : 'Ready for Test', points : 0},
+			{name: 'Ready for testing release', tickets: [] , label : 'Deploy Ready', points : 0},
+			{name: 'Ready for test', tickets: [] , label : 'Test Ready', points : 0},
 			{name: 'In Test', tickets: [] , label : 'In Test', points : 0},
 			{name: 'Ready for acceptance', tickets: [] , label : 'Acceptance', points : 0},
 			{name: 'Done', tickets: [] , label : 'Done', points : 0}
