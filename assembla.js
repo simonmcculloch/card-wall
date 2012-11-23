@@ -11,12 +11,13 @@ exports.get = function(req, res, resource) {
 		url: url, 
 		type: 'GET',
 		dataType: 'json',
+		cache: false,
 		beforeSend: function(xhr) {
 			console.log('Setting auth header to: ' + accessToken);
 			xhr.setRequestHeader('authorization', 'Bearer ' + accessToken); 
 		},
-		success: function(data) {
-			console.log('Success!');
+		success: function(data, status, xhr) {
+			console.log('Success! ' + xhr.status);
 			res.send(data, 200);
 		},
 		error: function(xhr, status, error) {

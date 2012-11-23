@@ -22,6 +22,17 @@ function CardWallModel(token) {
 			{name: 'Done', tickets: [] , label : 'Done'}
 		];
 
+
+	$.ajaxSetup({
+		cache: false,
+		error: function(xhr) { 
+					if(xhr.status == "401") {
+						console.log('Ticket has expired');
+						window.location = '/login';
+					}
+				}
+	})
+
 	me.findUser = function(id) {
 		var user = _.find(me.users(), function(user) { return user.id == id; });
 
@@ -40,13 +51,7 @@ function CardWallModel(token) {
 				dataType: 'json',
 				success: function(data) {					
 					me.users(data);
-				},
-				error: function(xhr) { 
-					if(xhr.status == "401") {
-						console.log('Ticket has expired');
-						window.location = '/login';
-					}
-				} 
+				}
 			});
 	}; 		
 
@@ -73,16 +78,27 @@ function CardWallModel(token) {
 					});
 
 					me.columns(me.states);
-				},
-				error: function(xhr) { 
-					if(xhr.status == "401") {
-						console.log('Ticket has expired');
-						window.location = '/login';
-					}
-				} 
-
+				}
 			});
 	}; 
+
+	me.rememberMilestone = function (id) {
+		$.jStorage.set("milestone", id);
+
+		console.log('Remembering Milestone selection: ' + id);
+
+		var id = $.jStorage.get("milestone");
+
+		console.log('Milestone selection stored is: ' + id);
+	};
+
+	me.recallMilestone = function () {
+		var id = $.jStorage.get("milestone");
+
+		console.log('Recalling Milestone selection: ' + id);
+
+		return id;
+	};
 
 	me.loadMilestones = function() {
 		console.log('Loading Milestones');
@@ -94,15 +110,11 @@ function CardWallModel(token) {
 				success: function(data) {
 					me.milestones(data);
 
-					
-				},
-				error: function(xhr) { 
-					if(xhr.status == "401") {
-						console.log('Ticket has expired');
-						window.location = '/login';
-					}
-				} 
+					var milestone = me.recallMilestone();
 
+					if(milestone)
+						me.selectMilestone(milestone);
+				}
 			});
 	};
 
@@ -114,6 +126,8 @@ function CardWallModel(token) {
 		me.milestone(milestone);		
 		me.clearTickets();
 		me.loadTickets();
+
+		me.rememberMilestone(id);
 	};
 
 	me.refresh = function() { 
