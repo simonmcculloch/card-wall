@@ -11,15 +11,16 @@ block content
 		<a data-bind="text: title, click: function() { $root.selectMilestone(id) }, attr: { class: 'milestone-link ' + (($root.milestone().id == id) ? 'selected' : '') } " />
 
 	script(id='status-column-template', type='text/html')
-		<div class='status-column'>
+		<div class='status-column'>		
 		<span data-bind="text: label" />
+		<span class='ticket-estimate' data-bind="text: points" />
 		<div data-bind="template: { name: 'ticket-template', foreach: tickets }" />
 		</div>
 
 	script(id='ticket-template', type='text/html')
 		<div class='ticket' data-bind="attr : { class : 'ticket ' + custom_fields['Type'] }">
 		<span class='ticket-link'><a data-bind="text: '#' + number, attr : { href: 'https://www.assembla.com/spaces/brightpt/tickets/' + number + '#/activity/ticket' }" /></span>
-		<span class='ticket-estimate' data-bind="text: estimate, attr: { title : 'Estimate' }" />
+		<span class='ticket-estimate right' data-bind="text: estimate, attr: { title : 'Estimate' }" />
 		<div data-bind="text: summary" />
 		<div class="user-label" data-bind="text: $root.findUser(assigned_to_id).name" />
 		<div class="user-label" data-bind="text: $root.findUser(custom_fields['Offsider']).name" />

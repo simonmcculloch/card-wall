@@ -6,20 +6,20 @@ function CardWallModel(token) {
 	me.milestones = ko.observableArray();
 	me.milestone = ko.observable({ id: 0, title: ''});
 	me.columns = ko.observableArray();
-	me.users = ko.observableArray();
+	me.users = ko.observableArray();	
 
 	me.states = [
-			{name: 'New', tickets: [] , label : 'New'},
-			{name: 'Blocked', tickets: [] , label : 'Blocked'},
-			{name: 'Ready for analysis', tickets: [] , label : 'Analysis Ready'},
-			{name: 'In Analysis', tickets: [] , label : 'In Analysis'},
-			{name: 'Ready for dev', tickets: [] , label : 'Ready for Dev'},
-			{name: 'In Dev', tickets: [] , label : 'In Dev'},
-			{name: 'Ready for testing release', tickets: [] , label : 'Ready for Test Release'},
-			{name: 'Ready for test', tickets: [] , label : 'Ready for Test'},
-			{name: 'In Test', tickets: [] , label : 'In Test'},
-			{name: 'Ready for acceptance', tickets: [] , label : 'Acceptance'},
-			{name: 'Done', tickets: [] , label : 'Done'}
+			{name: 'New', tickets: [] , label : 'New', points : 0},
+			{name: 'Blocked', tickets: [] , label : 'Blocked', points : 0},
+			{name: 'Ready for analysis', tickets: [] , label : 'Analysis Ready', points : 0},
+			{name: 'In Analysis', tickets: [] , label : 'In Analysis', points : 0},
+			{name: 'Ready for dev', tickets: [] , label : 'Ready for Dev', points : 0},
+			{name: 'In Dev', tickets: [] , label : 'In Dev', points : 0},
+			{name: 'Ready for testing release', tickets: [] , label : 'Ready for Test Release', points : 0},
+			{name: 'Ready for test', tickets: [] , label : 'Ready for Test', points : 0},
+			{name: 'In Test', tickets: [] , label : 'In Test', points : 0},
+			{name: 'Ready for acceptance', tickets: [] , label : 'Acceptance', points : 0},
+			{name: 'Done', tickets: [] , label : 'Done', points : 0}
 		];
 
 
@@ -73,31 +73,38 @@ function CardWallModel(token) {
 
 						var status = _.find(me.states, function(status) { return status.name == ticket.status; });
 
-						if(status)
+						if(status) {
 							status.tickets.push(ticket);
+							status.points += ticket.estimate;
+						}
 					});
 
 					me.columns(me.states);
+
+					$(".ticket").draggable({
+						opacity: 0.55,
+						revert: 'invalid',
+						start: function() { $(this).css('z-index', '100'); },
+						stop: function() { $(this).css('z-index', '0'); }
+					});
+
+					$(".user-label").draggable({
+						helper: 'clone',
+						revert: 'invalid',
+						opacity: 0.55,
+						appendTo: 'body',
+
+					});
 				}
 			});
 	}; 
 
 	me.rememberMilestone = function (id) {
 		$.jStorage.set("milestone", id);
-
-		console.log('Remembering Milestone selection: ' + id);
-
-		var id = $.jStorage.get("milestone");
-
-		console.log('Milestone selection stored is: ' + id);
 	};
 
 	me.recallMilestone = function () {
-		var id = $.jStorage.get("milestone");
-
-		console.log('Recalling Milestone selection: ' + id);
-
-		return id;
+		return $.jStorage.get("milestone");
 	};
 
 	me.loadMilestones = function() {

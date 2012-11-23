@@ -41,6 +41,13 @@ h1 {
   width: 100%;
   font-size: 1.0em;
 }
+.status-column div {
+  float: none;
+  clear: both;
+}
+.right {
+  float: right;
+}
 .ticket {
   margin: 10px;
   padding: 2px;
@@ -58,7 +65,6 @@ h1 {
   font-size: 1.2em;
 }
 .ticket-estimate {
-  float: right;
   background: white;
   border: solid 1px silver	;
   padding: 2px;
