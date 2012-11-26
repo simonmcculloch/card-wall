@@ -6,7 +6,8 @@ function CardWallModel(token) {
 	me.milestones = ko.observableArray();
 	me.milestone = ko.observable({ id: 0, title: ''});
 	me.columns = ko.observableArray();
-	me.users = ko.observableArray();	
+	me.users = ko.observableArray();
+	me.pointsText = ko.observable('');
 
 	me.states = [
 			{name: 'New', tickets: [] , label : 'New', points : 0},
@@ -69,6 +70,7 @@ function CardWallModel(token) {
 				dataType: 'json',
 				success: function(data) {					
 
+					var pointsForMilestone = 0;
 					$.each(data, function(i, ticket) { 
 
 						var status = _.find(me.states, function(status) { return status.name == ticket.status; });
@@ -76,10 +78,14 @@ function CardWallModel(token) {
 						if(status) {
 							status.tickets.push(ticket);
 							status.points += ticket.estimate;
+
+							if(status.name === 'Done')
+								pointsForMilestone += ticket.estimate;
 						}
 					});
 
 					me.columns(me.states);
+					me.pointsText(pointsForMilestone + ' points');
 
 					$(".ticket").draggable({
 						opacity: 0.55,

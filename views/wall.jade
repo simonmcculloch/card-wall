@@ -1,6 +1,10 @@
 extends layout
 
 block content
+
+	div(id="total-points")
+		span(data-bind="text: pointsText")
+
 	div(id="milestone-banner", data-bind="template: { name: 'milestone-template', foreach: milestones }")
 		div(style="float:none;clear:both;")
 
@@ -18,12 +22,12 @@ block content
 		</div>
 
 	script(id='ticket-template', type='text/html')
-		<div class='ticket' data-bind="attr : { class : 'ticket ' + custom_fields['Type'] }">
+		<div class='ticket' data-bind="attr : { class : 'ticket ' + custom_fields['Type'], number : number }">
 		<span class='ticket-link'><a data-bind="text: '#' + number, attr : { href: 'https://www.assembla.com/spaces/brightpt/tickets/' + number + '#/activity/ticket', target : '_blank' }" /></span>
 		<span class='ticket-estimate right' data-bind="text: estimate, attr: { title : 'Estimate' }" />
 		<div data-bind="text: summary" />
-		<div class="user-label" data-bind="text: $root.findUser(assigned_to_id).name" />
-		<div class="user-label" data-bind="text: $root.findUser(custom_fields['Offsider']).name" />
+		<div class="user-label" data-bind="text: $root.findUser(assigned_to_id).name, attr : { id : assigned_to_id, number: number }" />
+		<div class="user-label" data-bind="text: $root.findUser(custom_fields['Offsider']).name, attr : { id : custom_fields['Offsider'], number: number }" />
 		</div>
 
 	script(src='/javascripts/jStorage.js')

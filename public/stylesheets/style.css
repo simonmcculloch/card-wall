@@ -75,6 +75,16 @@ h1 {
   margin: 2px;
   padding: 2px;
 }
+#total-points {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  padding: 10px;
+}
+#total-points span {
+  font-size: 3.0em;
+  color: silver;
+}
 .Bug {
   background-color: pink;
 }
