@@ -34,6 +34,7 @@ function CardWallModel(token) {
 				}
 	})
 
+
 	me.findUser = function(id) {
 		var user = _.find(me.users(), function(user) { return user.id == id; });
 

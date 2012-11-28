@@ -9,10 +9,17 @@ block content
 		div(style="float:none;clear:both;")
 
 	div(id="container")
+		div(style="float:left;", data-bind="template: { name: 'user-list-template', foreach: users }" )
 		div(data-bind="template: { name: 'status-column-template', foreach: columns }" )
 
 	script(id='milestone-template', type='text/html')
 		<a data-bind="text: title, click: function() { $root.selectMilestone(id) }, attr: { class: 'milestone-link ' + (($root.milestone().id == id) ? 'selected' : '') } " />
+
+	script(id='user-list-template', type='text/html')
+		<div class="user-list">
+		<img data-bind="attr: { src: picture }" style="height: 10px, width: 10px;" height="16px" width="16px"/>
+		<span data-bind="text: name, attr: { title: name}" />
+		</div>
 
 	script(id='status-column-template', type='text/html')
 		<div class='status-column'>		
