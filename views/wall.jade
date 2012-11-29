@@ -9,16 +9,16 @@ block content
 		div(style="float:none;clear:both;")
 
 	div(id="container")
-		div(style="float:left;", data-bind="template: { name: 'user-list-template', foreach: users }" )
+		div(id="user-list", style="float:left;", data-bind="template: { name: 'user-list-template', foreach: users }" )
 		div(style="float:none;", data-bind="template: { name: 'status-column-template', foreach: columns }" )
 
 	script(id='milestone-template', type='text/html')
 		<a data-bind="text: title, click: function() { $root.selectMilestone(id) }, attr: { class: 'milestone-link ' + (($root.milestone().id == id) ? 'selected' : '') } " />
 
 	script(id='user-list-template', type='text/html')
-		<div class="user-list">
+		<div class="user-list" data-bind="css : { highlight : selected } ,attr: { title: name}, event : { mouseover: $root.highlightUser, mouseleave: $root.unHighlightUser }">
 		<img data-bind="attr: { src: picture }" style="height: 10px, width: 10px;" height="16px" width="16px"/>
-		<span data-bind="text: name, attr: { title: name}" />
+		<span data-bind="text: name" />
 		</div>
 
 	script(id='status-column-template', type='text/html')
@@ -29,7 +29,7 @@ block content
 		</div>
 
 	script(id='ticket-template', type='text/html')
-		<div class='ticket' data-bind="attr : { class : 'ticket ' + custom_fields['Type'], number : number }">
+		<div class='ticket' data-bind="attr : { class : 'ticket ' + custom_fields['Type'], number : number }, css : { highlight : highlight }">
 		<span class='ticket-link'><a data-bind="text: '#' + number, attr : { href: 'https://www.assembla.com/spaces/brightpt/tickets/' + number + '#/activity/ticket', target : '_blank' }" /></span>
 		<span class='ticket-estimate right' data-bind="text: estimate, attr: { title : 'Estimate' }" />
 		<div data-bind="text: summary" />

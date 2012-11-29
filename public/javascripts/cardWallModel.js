@@ -8,6 +8,7 @@ function CardWallModel(token) {
 	me.columns = ko.observableArray();
 	me.users = ko.observableArray();
 	me.pointsText = ko.observable('');
+	me.selectedUser = ko.observable();
 
 	me.states = [
 			{name: 'New', tickets: [] , label : 'New', points : 0},
@@ -35,6 +36,30 @@ function CardWallModel(token) {
 				}
 	})
 
+	me.highlightUser = function(selected) {
+		var user = _.find(me.users(), function(user) { return user.id == selected.id; });
+
+		user.selected(true);
+
+		$.each(me.states, function(i, state) {
+			$.each(state.tickets, function(j, ticket) {
+				if(ticket.assigned_to_id == user.id)
+					ticket.highlight(true);
+			});
+		});
+	}
+
+	me.unHighlightUser = function(selected) {
+		var user = _.find(me.users(), function(user) { return user.id == selected.id; });
+
+		user.selected(false);
+
+		$.each(me.states, function(i, state) {
+			$.each(state.tickets, function(j, ticket) {
+				ticket.highlight(false);
+			});
+		});
+	}
 
 	me.userName = function(id, notFound) {
 		var user = _.find(me.users(), function(user) { return user.id == id; });
@@ -52,7 +77,8 @@ function CardWallModel(token) {
 				url: '/users?access_token=' + me.accessToken, 
 				type: 'GET',
 				dataType: 'json',
-				success: function(data) {					
+				success: function(data) {
+					$.each(data, function(i, user) { user.selected = ko.observable(false); })
 					me.users(data);
 				}
 			});
@@ -74,6 +100,7 @@ function CardWallModel(token) {
 
 					var pointsForMilestone = 0;
 					$.each(data, function(i, ticket) { 
+						ticket.highlight = ko.observable(false);
 
 						var status = _.find(me.states, function(status) { return status.name == ticket.status; });
 

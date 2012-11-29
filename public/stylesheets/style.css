@@ -22,6 +22,9 @@ h1 {
 #milestone-banner .selected {
   color: yellow;
 }
+#user-list {
+  position: fixed;
+}
 .user-list {
   font-size: 0.8em;
 }
@@ -69,7 +72,8 @@ h1 {
   background-color: white;
   border: solid 1px darkgrey;
   margin: 2px;
-  padding: 2px;
+  padding: 4px;
+  cursor: pointer;
 }
 #total-points {
   position: fixed;
@@ -92,4 +96,9 @@ h1 {
 }
 .Quote {
   background-color: lemonchiffon;
+}
+.highlight {
+  background-color: #FFD956;
+  font-size: 1.0em;
+  cursor: pointer;
 }
