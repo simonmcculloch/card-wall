@@ -20,7 +20,8 @@ function CardWallModel(token) {
 			{name: 'Ready for test', tickets: [] , label : 'Test Ready', points : 0},
 			{name: 'In Test', tickets: [] , label : 'In Test', points : 0},
 			{name: 'Ready for acceptance', tickets: [] , label : 'Acceptance', points : 0},
-			{name: 'Done', tickets: [] , label : 'Done', points : 0}
+			{name: 'Done', tickets: [] , label : 'Done', points : 0},
+			{name: 'Dusted', tickets: [] , label : 'Dusted', points : 0}
 		];
 
 
@@ -35,13 +36,13 @@ function CardWallModel(token) {
 	})
 
 
-	me.findUser = function(id) {
+	me.userName = function(id, notFound) {
 		var user = _.find(me.users(), function(user) { return user.id == id; });
 
 		if(!user)
-			return { name : "Unassigned" };
+			user = { name : (notFound) ? notFound : "Unassigned" };
 
-		return user;
+		return user.name;
 	};
 
 	me.loadUsers = function() {
@@ -58,7 +59,7 @@ function CardWallModel(token) {
 	}; 		
 
 	me.clearTickets = function() {
-		$.each(me.states, function(i, state) { state.tickets = []; });
+		$.each(me.states, function(i, state) { state.tickets = []; points = 0 });
 		me.columns(null);
 	};
 
@@ -80,7 +81,7 @@ function CardWallModel(token) {
 							status.tickets.push(ticket);
 							status.points += ticket.estimate;
 
-							if(status.name === 'Done')
+							if(status.name === 'Done' || status.name === 'Dusted')
 								pointsForMilestone += ticket.estimate;
 						}
 					});

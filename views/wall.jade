@@ -10,7 +10,7 @@ block content
 
 	div(id="container")
 		div(style="float:left;", data-bind="template: { name: 'user-list-template', foreach: users }" )
-		div(data-bind="template: { name: 'status-column-template', foreach: columns }" )
+		div(style="float:none;", data-bind="template: { name: 'status-column-template', foreach: columns }" )
 
 	script(id='milestone-template', type='text/html')
 		<a data-bind="text: title, click: function() { $root.selectMilestone(id) }, attr: { class: 'milestone-link ' + (($root.milestone().id == id) ? 'selected' : '') } " />
@@ -33,8 +33,8 @@ block content
 		<span class='ticket-link'><a data-bind="text: '#' + number, attr : { href: 'https://www.assembla.com/spaces/brightpt/tickets/' + number + '#/activity/ticket', target : '_blank' }" /></span>
 		<span class='ticket-estimate right' data-bind="text: estimate, attr: { title : 'Estimate' }" />
 		<div data-bind="text: summary" />
-		<div class="user-label" data-bind="text: $root.findUser(assigned_to_id).name, attr : { id : assigned_to_id, number: number }" />
-		<div class="user-label" data-bind="text: $root.findUser(custom_fields['Offsider']).name, attr : { id : custom_fields['Offsider'], number: number }" />
+		<div class="user-label" data-bind="text: $root.userName(assigned_to_id), attr : { id : assigned_to_id, number: number }" />
+		<div class="user-label" data-bind="text: $root.userName(custom_fields['Offsider'], 'All alone :('), attr : { id : custom_fields['Offsider'], number: number }" />
 		</div>
 
 	script(src='/javascripts/jStorage.js')
