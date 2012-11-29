@@ -24,7 +24,7 @@ block content
 	script(id='status-column-template', type='text/html')
 		<div class='status-column'>		
 		<span data-bind="text: label, attr: { title : name }" />
-		<span class='ticket-estimate' data-bind="text: points, attr : { title : 'Total Points'}" />
+		<span class='ticket-estimate' data-bind="text: tickets.length + ' | ' + points, attr : { title : 'Number of Tickets | Total Points'}" />
 		<div data-bind="template: { name: 'ticket-template', foreach: tickets }" />
 		</div>
 

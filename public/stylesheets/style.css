@@ -29,14 +29,17 @@ h1 {
   background-color: lemonchiffon;
   border: solid 1px silver;
 }
+.ticket-estimate {
+  font-size: 0.8em;
+  background: white;
+  border: solid 1px silver	;
+  padding: 2px;
+}
 .status-column {
   float: left;
   width: 7.5%;
   text-align: center;
   border-right: solid 1px silver;
-}
-.status-column > span {
-  width: 100%;
   font-size: 1.0em;
 }
 .status-column div {
@@ -61,11 +64,6 @@ h1 {
 .ticket-link {
   float: left;
   font-size: 1.2em;
-}
-.ticket-estimate {
-  background: white;
-  border: solid 1px silver	;
-  padding: 2px;
 }
 .user-label {
   background-color: white;
