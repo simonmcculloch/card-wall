@@ -86,6 +86,10 @@ function CardWallModel(token) {
 						}
 					});
 
+					$.each(me.states, function(i, state) { 
+						state.tickets = _.sortBy(state.tickets, function(ticket) { return ticket.priority; });
+					});
+
 					me.columns(me.states);
 					me.pointsText(pointsForMilestone + ' points');
 
