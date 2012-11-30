@@ -19,6 +19,7 @@ block content
 		<div class="user-list" data-bind="css : { highlight : selected } ,attr: { title: name}, event : { mouseover: $root.highlightUser, mouseleave: $root.unHighlightUser }">
 		<img data-bind="attr: { src: picture }" style="height: 10px, width: 10px;" height="16px" width="16px"/>
 		<span data-bind="text: name" />
+		<span data-bind="text: ticketCount" class="ticket-estimate" />
 		</div>
 
 	script(id='status-column-template', type='text/html')

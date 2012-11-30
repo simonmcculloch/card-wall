@@ -36,16 +36,26 @@ function CardWallModel(token) {
 				}
 	})
 
+	me.allTickets = function() {
+		var all = [];
+		
+		$.each(me.states, function(i, state) {
+			$.each(state.tickets, function(j, ticket) {
+				all.push(ticket);
+			});
+		});
+
+		return all;
+	};
+
 	me.highlightUser = function(selected) {
 		var user = _.find(me.users(), function(user) { return user.id == selected.id; });
 
 		user.selected(true);
 
-		$.each(me.states, function(i, state) {
-			$.each(state.tickets, function(j, ticket) {
-				if(ticket.assigned_to_id == user.id)
-					ticket.highlight(true);
-			});
+		$.each(me.allTickets(), function(i, ticket) {
+			if(ticket.assigned_to_id == user.id)
+				ticket.highlight(true);
 		});
 	}
 
@@ -54,10 +64,8 @@ function CardWallModel(token) {
 
 		user.selected(false);
 
-		$.each(me.states, function(i, state) {
-			$.each(state.tickets, function(j, ticket) {
-				ticket.highlight(false);
-			});
+		$.each(me.allTickets(), function(i, ticket) {
+			ticket.highlight(false);
 		});
 	}
 
@@ -78,7 +86,10 @@ function CardWallModel(token) {
 				type: 'GET',
 				dataType: 'json',
 				success: function(data) {
-					$.each(data, function(i, user) { user.selected = ko.observable(false); })
+					$.each(data, function(i, user) { 
+						user.selected = ko.observable(false); 
+						user.ticketCount = ko.observable(0); 
+					})
 					me.users(data);
 				}
 			});
@@ -110,11 +121,24 @@ function CardWallModel(token) {
 
 							if(status.name === 'Done' || status.name === 'Dusted')
 								pointsForMilestone += ticket.estimate;
+
 						}
 					});
 
 					$.each(me.states, function(i, state) { 
 						state.tickets = _.sortBy(state.tickets, function(ticket) { return ticket.priority; });
+					});
+
+					$.each(me.users(), function(i, user) {
+						$.each(me.states, function(i, state) {
+							$.each(state.tickets, function(j, ticket) {
+								if(ticket.assigned_to_id == user.id) {
+									var count = user.ticketCount();
+									count++;
+									user.ticketCount(count);
+								}
+							});
+						});
 					});
 
 					me.columns(me.states);
