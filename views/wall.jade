@@ -10,7 +10,7 @@ block content
 
 	div(id="container")
 		div(id="user-list", style="float:left;", data-bind="template: { name: 'user-list-template', foreach: users }" )
-		div(style="float:none;", data-bind="template: { name: 'status-column-template', foreach: columns }" )
+		div(style="float:none;margin-left:200px;", data-bind="template: { name: 'status-column-template', foreach: columns }" )
 
 	script(id='milestone-template', type='text/html')
 		<a data-bind="text: title, click: function() { $root.selectMilestone(id) }, attr: { class: 'milestone-link ' + (($root.milestone().id == id) ? 'selected' : '') } " />
@@ -24,7 +24,7 @@ block content
 
 	script(id='status-column-template', type='text/html')
 		<div class='status-column'>		
-		<span data-bind="text: label, attr: { title : name }" />
+		<span data-bind="text: name, attr: { title : name }" />
 		<span class='ticket-estimate' data-bind="text: tickets.length + ' | ' + points, attr : { title : 'Number of Tickets | Total Points'}" />
 		<div data-bind="template: { name: 'ticket-template', foreach: tickets }" />
 		</div>
@@ -46,8 +46,7 @@ block content
 			var model = new CardWallModel('#{token}');
 			ko.applyBindings(model);
 
-			model.loadUsers();
-			model.loadMilestones();
+			model.load();
 
 			setTimeout(function() { model.refresh(); }  , 30000);
 		});

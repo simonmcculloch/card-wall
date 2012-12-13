@@ -9,22 +9,7 @@ function CardWallModel(token) {
 	me.users = ko.observableArray();
 	me.pointsText = ko.observable('');
 	me.selectedUser = ko.observable();
-
-	me.states = [
-			{name: 'New', tickets: [] , label : 'New', points : 0},
-			{name: 'Blocked', tickets: [] , label : 'Blocked', points : 0},
-			{name: 'Ready for analysis', tickets: [] , label : 'Analysis Ready', points : 0},
-			{name: 'In Analysis', tickets: [] , label : 'In Analysis', points : 0},
-			{name: 'Ready for dev', tickets: [] , label : ' Dev Ready', points : 0},
-			{name: 'In Dev', tickets: [] , label : 'In Dev', points : 0},
-			{name: 'Ready for testing release', tickets: [] , label : 'Deploy Ready', points : 0},
-			{name: 'Ready for test', tickets: [] , label : 'Test Ready', points : 0},
-			{name: 'In Test', tickets: [] , label : 'In Test', points : 0},
-			{name: 'Ready for acceptance', tickets: [] , label : 'Acceptance', points : 0},
-			{name: 'Done', tickets: [] , label : 'Done', points : 0},
-			{name: 'Dusted', tickets: [] , label : 'Dusted', points : 0}
-		];
-
+	me.states = [];
 
 	$.ajaxSetup({
 		cache: false,
@@ -94,6 +79,25 @@ function CardWallModel(token) {
 				}
 			});
 	}; 		
+
+	me.loadStatuses = function() {
+		console.log('Loading statuses');
+		me.states = [];
+
+		$.ajax({
+				url: '/tickets/statuses?access_token=' + me.accessToken, 
+				type: 'GET',
+				dataType: 'json',
+				success: function(data) {					
+
+					$.each(data, function(i, status) { 
+						me.states.push({ state: status.state, name: status.name, tickets: [], points : 0});
+					});
+
+				}
+			});
+
+	};
 
 	me.clearTickets = function() {
 		$.each(me.states, function(i, state) { state.tickets = []; points = 0 });
@@ -198,6 +202,12 @@ function CardWallModel(token) {
 		me.loadTickets();
 
 		me.rememberMilestone(id);
+	};
+
+	me.load = function() {
+		me.loadUsers();
+		me.loadStatuses();
+		me.loadMilestones();
 	};
 
 	me.refresh = function() { 

@@ -51,6 +51,7 @@ app.get('/', home.index);
 app.get('/login', login.index);
 app.get('/wall', wall.index);
 app.get('/tickets/milestone/:milestoneId', token.parse, tickets.index);
+app.get('/tickets/statuses', token.parse, tickets.statuses);
 app.get('/milestones', token.parse, milestones.index);
 app.get('/users', token.parse, users.index);
 
